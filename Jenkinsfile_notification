@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+    post {
+        success {
+            emailext(
+                subject: "${env.JOB_NAME} on build [${env.BUILD_NUMBER}] was deployed successfully =)",
+                body: "Check out the job output ${env.JOB_NAME} in [${env.BUILD_URL}] ",
+                to: "jfneto92@gmail.com"
+            )
+        }   
+    }
+} 
